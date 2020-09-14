@@ -58,15 +58,15 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/txtNoTelepon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="No Telepon yang bisa dihibungi"
-        android:inputType="textPersonName" />
+        android:inputType="number|phone" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnRegistrasi"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="70dp"

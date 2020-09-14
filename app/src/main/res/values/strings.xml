@@ -3,7 +3,6 @@
     <string name="ket_registrasi">Mari bekerja sama mencegah  penyebaran virus Covid-19 dengan cara saling berbagi informasi tentang kondisi kesehatan dan lokasi anda</string>
 
     <string-array name="jenis_kelamin">
-        <item>Jenis Kelamin</item>
         <item>Pria</item>
         <item>Wanita</item>
     </string-array>
