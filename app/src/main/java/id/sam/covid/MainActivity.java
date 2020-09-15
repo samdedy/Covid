@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
@@ -99,18 +100,40 @@ public class MainActivity extends AppCompatActivity {
                 txtKondisi.setText("SEHAT");
                 imgKondisi.setImageResource(R.drawable.ic_done_24);
                 txtKet.setText("Terakhir update "+time);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent sehat = new Intent(MainActivity.this, KetActivity.class);
+                        startActivity(sehat);
+                    }
+                },1000);
+
                 break;
             case "sakit":
                 cvStatus.setCardBackgroundColor(Color.parseColor("#FFFFF6A4"));
                 txtKondisi.setText("SAKIT");
                 imgKondisi.setImageResource(R.drawable.ic_warning_24);
                 txtKet.setText("Terakhir update "+time);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent sakit = new Intent(MainActivity.this, KetActivity.class);
+                        startActivity(sakit);
+                    }
+                },1000);
                 break;
             case "covid":
                 cvStatus.setCardBackgroundColor(Color.parseColor("#FFFF9A9A"));
                 txtKondisi.setText("COVID");
                 imgKondisi.setImageResource(R.drawable.ic_report_24);
                 txtKet.setText("Terakhir update "+time);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent covid = new Intent(MainActivity.this, DaruratActivity.class);
+                        startActivity(covid);
+                    }
+                },1000);
                 break;
             default:
                 break;
