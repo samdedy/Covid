@@ -1,5 +1,5 @@
 
-package id.sam.covid.model;
+package id.sam.covid.model.update;
 
 import java.io.Serializable;
 import android.os.Parcel;
@@ -8,7 +8,7 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterModel implements Serializable, Parcelable
+public class UpdateModel implements Serializable, Parcelable
 {
 
     @SerializedName("status")
@@ -17,45 +17,51 @@ public class RegisterModel implements Serializable, Parcelable
     @SerializedName("message")
     @Expose
     private String message;
-    public final static Creator<RegisterModel> CREATOR = new Creator<RegisterModel>() {
+    @SerializedName("data")
+    @Expose
+    private Data data;
+    public final static Creator<UpdateModel> CREATOR = new Creator<UpdateModel>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public RegisterModel createFromParcel(Parcel in) {
-            return new RegisterModel(in);
+        public UpdateModel createFromParcel(Parcel in) {
+            return new UpdateModel(in);
         }
 
-        public RegisterModel[] newArray(int size) {
-            return (new RegisterModel[size]);
+        public UpdateModel[] newArray(int size) {
+            return (new UpdateModel[size]);
         }
 
     }
     ;
-    private final static long serialVersionUID = 1959283370015088632L;
+    private final static long serialVersionUID = 3873182477408422901L;
 
-    protected RegisterModel(Parcel in) {
+    protected UpdateModel(Parcel in) {
         this.status = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.message = ((String) in.readValue((String.class.getClassLoader())));
+        this.data = ((Data) in.readValue((Data.class.getClassLoader())));
     }
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public RegisterModel() {
+    public UpdateModel() {
     }
 
     /**
      * 
+     * @param data
      * @param message
      * @param status
      */
-    public RegisterModel(Boolean status, String message) {
+    public UpdateModel(Boolean status, String message, Data data) {
         super();
         this.status = status;
         this.message = message;
+        this.data = data;
     }
 
     public Boolean getStatus() {
@@ -74,9 +80,18 @@ public class RegisterModel implements Serializable, Parcelable
         this.message = message;
     }
 
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(status);
         dest.writeValue(message);
+        dest.writeValue(data);
     }
 
     public int describeContents() {

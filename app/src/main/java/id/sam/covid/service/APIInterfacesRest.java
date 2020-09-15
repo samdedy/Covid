@@ -1,12 +1,15 @@
 package id.sam.covid.service;
 
-import id.sam.covid.model.RegisterModel;
-import okhttp3.MultipartBody;
+import id.sam.covid.model.detail.DetailModel;
+import id.sam.covid.model.register.RegisterModel;
+import id.sam.covid.model.update.UpdateModel;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface APIInterfacesRest {
 
@@ -76,6 +79,9 @@ public interface APIInterfacesRest {
 //   @GET("biodata/all")
 //   Call<ListBiodata> getListBiodata();
 //
+      @GET("biodata/all")
+      Call<DetailModel> getDetailData(@Query("id") int id);
+
    @Multipart
    @POST("covid/add")
    Call<RegisterModel> addData(
@@ -92,6 +98,24 @@ public interface APIInterfacesRest {
            @Part("no_telepon") RequestBody no_telepon,
            @Part("picture") RequestBody picture
    );
+
+    @Multipart
+    @POST("Covid/update")
+    Call<UpdateModel> updateData(
+            @Part("id") RequestBody id,
+            @Part("username") RequestBody username,
+            @Part("kondisi") RequestBody kondisi,
+            @Part("lat") RequestBody lat,
+            @Part("lon") RequestBody lon,
+            @Part("timestamp") RequestBody timestamp,
+            @Part("status") RequestBody status,
+            @Part("nama_lengkap") RequestBody nama_lengkap,
+            @Part("umur") RequestBody umur,
+            @Part("jenis_kelamin") RequestBody jenis_kelamin,
+            @Part("kota_domisili") RequestBody kota_domisili,
+            @Part("no_telepon") RequestBody no_telepon,
+            @Part("picture") RequestBody picture
+    );
 //
 //   @Multipart
 //   @POST("Biodata/update")

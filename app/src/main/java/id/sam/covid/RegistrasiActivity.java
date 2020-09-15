@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -14,19 +15,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.location.aravind.getlocation.GeoLocator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
-import id.sam.covid.model.RegisterModel;
+import id.sam.covid.model.register.RegisterModel;
 import id.sam.covid.service.APIClient;
 import id.sam.covid.service.APIInterfacesRest;
+import id.sam.covid.utility.SharedPrefUtil;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +38,6 @@ public class RegistrasiActivity extends AppCompatActivity {
     TextView txtNamaLengkap, txtUmur, txtKotaDomisili, txtNoTelepon;
     Spinner spnJenisKelamin;
     Button btnRegistrasi;
-    GeoLocator geoLocator;
     Double lat = 0.0, lon = 0.0;
 
     @Override
@@ -52,9 +52,8 @@ public class RegistrasiActivity extends AppCompatActivity {
         spnJenisKelamin = findViewById(R.id.spnJenisKelamin);
         btnRegistrasi = findViewById(R.id.btnRegistrasi);
 
-        geoLocator = new GeoLocator(getApplicationContext(),RegistrasiActivity.this);
-        lat = geoLocator.getLattitude();
-        lon = geoLocator.getLongitude();
+        lat = getIntent().getDoubleExtra("lat",0);
+        lon = getIntent().getDoubleExtra("lon",0);
 
         btnRegistrasi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,11 +86,11 @@ public class RegistrasiActivity extends AppCompatActivity {
 
         Call<RegisterModel> absentAdd = apiInterface.addData(
                 toRequestBody(firstWord),
-                toRequestBody("unknow"),
+                toRequestBody("sehat"),
                 toRequestBody(String.valueOf(lat)),
                 toRequestBody(String.valueOf(lon)),
                 toRequestBody(ts),
-                toRequestBody("uncheck"),
+                toRequestBody("0 0 0 0 0"),
                 toRequestBody(txtNamaLengkap.getText().toString()),
                 toRequestBody(txtUmur.getText().toString()),
                 toRequestBody(spnJenisKelamin.getSelectedItem().toString()),
@@ -110,6 +109,13 @@ public class RegistrasiActivity extends AppCompatActivity {
 
                     if (status.getStatus()) {
                         Toast.makeText(RegistrasiActivity.this, "Registrasi Berhasil", Toast.LENGTH_LONG).show();
+
+                        Gson gson = new Gson();
+                        String json = gson.toJson(status.getData());
+                        SharedPrefUtil.getInstance(RegistrasiActivity.this).put("data_input", json);
+
+                        Intent intent = new Intent(RegistrasiActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     } else {
                         try {
