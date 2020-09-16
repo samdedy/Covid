@@ -1,6 +1,7 @@
 package id.sam.covid.service;
 
 import id.sam.covid.model.detail.DetailModel;
+import id.sam.covid.model.getall.GetAllModel;
 import id.sam.covid.model.register.RegisterModel;
 import id.sam.covid.model.update.UpdateModel;
 import okhttp3.RequestBody;
@@ -116,6 +117,9 @@ public interface APIInterfacesRest {
             @Part("no_telepon") RequestBody no_telepon,
             @Part("picture") RequestBody picture
     );
+
+    @GET("covid/all")
+    Call<GetAllModel> getAll();
 //
 //   @Multipart
 //   @POST("Biodata/update")
