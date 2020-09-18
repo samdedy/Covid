@@ -3,6 +3,7 @@ package id.sam.covid;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ProgressDialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,7 +36,7 @@ import retrofit2.Response;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    Double lat = 0.0, lon = 0.0;
+    Double lat = 0.0, lon = 0.0, radius = 800.0; // radius per meter
     LinearLayout linlayKembali;
 
     @Override
@@ -81,6 +83,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(myLocation)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
                 .title("Lokasi Saya"));
+
+        mMap.addCircle(new CircleOptions() // radius cicle
+                .center(myLocation)
+                .radius(radius)
+                .strokeWidth(0f)
+                .fillColor(0x550000FF));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, zoomLevel)); // zoom
 
         getAll();
@@ -132,8 +140,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 progressDialog.dismiss();
                 GetAllModel listCovid = response.body();
                 if (listCovid !=null) {
+                    float[] distance = new float[2];
                     for (int i=0;i<listCovid.getData().getCovid().size();i++){
-                        list.add(listCovid.getData().getCovid().get(i));
+                        // if marker in radius google maps
+                        Location.distanceBetween(
+                                Double.parseDouble(listCovid.getData().getCovid().get(i).getLat()),
+                                Double.parseDouble(listCovid.getData().getCovid().get(i).getLon()),
+                                lat,
+                                lon,
+                                distance);
+
+                        if( distance[0] > radius  ){
+                        } else {
+                            list.add(listCovid.getData().getCovid().get(i));
+                        }
                     }
 
                     // Add some markers to the map, and add a data object to each marker.
