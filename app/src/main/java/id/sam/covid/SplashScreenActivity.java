@@ -29,11 +29,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String dataJson = SharedPrefUtil.getInstance(SplashScreenActivity.this).getString("data_input");
                 if (!TextUtils.isEmpty(dataJson)){
                     Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-                    intent.putExtra("lat", lat);
-                    intent.putExtra("lon", lon);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(SplashScreenActivity.this, RegistrasiActivity.class);
+                    intent.putExtra("lat", lat);
+                    intent.putExtra("lon", lon);
                     startActivity(intent);
                 }
                 finish();
